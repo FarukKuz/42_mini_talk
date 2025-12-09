@@ -6,46 +6,51 @@
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 17:56:20 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/06 20:23:01 by fakuz            ###   ########.fr       */
+/*   Updated: 2025/12/09 18:43:59 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_talk.h"
 
-void	server_handler(int sig_type)
+static void	server_handler(int sig_type)
 {
 	static char		c;
-	static size_t	i;
+	static int		bit;
 
-	c = 0;
-	i = 0;
 	if (sig_type == SIGUSR1)
 	{
 		c = c << 1;
-		i++;
+		c = c | 1;
+		bit++;
 	}
-	if (sig_type == SIGUSR2)
+	else if (sig_type == SIGUSR2)
 	{
 		c = c << 1;
-		if (c == 0)
-			c += 1;
-		c = c * 2;
-		i++;
+		bit++;
 	}
-	if (i == 8)
+	if (bit == 8)
 	{
 		write(1, &c, 1);
-		i = 0;
+		bit = 0;
 		c = 0;
 	}
 }
 
 int	main(void)
 {
-	__pid_t				pid;
 	struct sigaction	sa;
 
+	ft_printf("Server PID: %d\n", getpid());
 	sa.sa_handler = server_handler;
-	printf("%d", pid);
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+		return (1);
+	if (sigaction(SIGUSR2, &sa, NULL) == -1)
+		return (1);
+	while (1)
+		pause();
 	return (0);
 }

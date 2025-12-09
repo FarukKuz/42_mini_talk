@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_talk.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 14:39:37 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/09 16:27:29 by fakuz            ###   ########.fr       */
+/*   Created: 2025/09/04 15:28:34 by fakuz             #+#    #+#             */
+/*   Updated: 2025/09/05 23:10:05 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINI_TALK_H
-# define MINI_TALK_H
+#include "ft_printf.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include "ft_printf/ft_printf.h"
+int main()
+{
+	int x, y;
 
-int	ft_atoi(const char *nptr);
-
-#endif
+	x = printf("%d asd --%", 124);
+	y = ft_printf("\n%d asd --%", 124);
+	printf("\n%d - %d", x, y);
+	return (0);
+}

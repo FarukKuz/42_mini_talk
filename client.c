@@ -6,57 +6,47 @@
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 14:35:35 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/06 20:16:16 by fakuz            ###   ########.fr       */
+/*   Updated: 2025/12/09 17:52:55 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_talk.h"
 
-void	client_handler(int signal)
+static void	send_char(int pid, char c)
 {
-	if (signal == SIGUSR1)
-		printf("deneme");
+	int	bit;
 
+	bit = 7;
+	while (bit >= 0)
+	{
+		if ((c >> bit) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		bit--;
+		usleep(100);
+	}
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	static char		c;
-	static size_t	i;
-	__pid_t			pid;
+	int	pid;
+	int	i;
 
-	struct sigaction sa;
-	sigemptyset(&sa.sa_mask);
-	printf("Sunucu PID'si: %d\n", getpid());
-	pid = getpid();
-	sa.sa_handler = client_handler;
-	sa.sa_flags = 0;
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+	if (argc != 3)
+		return (1);
+	pid = ft_atoi(argv[1]);
+	if (pid <= 0)
 	{
-		perror("sigaction hatasi");
+		ft_printf("Error: Invalid PID\n");
 		return (1);
 	}
-	printf("Sinyal bekliyor...\n");
-	while (1)
-	{
-		usleep(1000);
-		kill(pid, SIGUSR1);
-	}
-
-	/*
-	c = 127;
 	i = 0;
-	printf("Once: %d\n", c);
-	c = c >> 1;
-	printf("Sonra2: %d\n", c);
-	c += 1;
-	printf("Sonra3: %d\n", c);
-	c = 's';
-	printf("Once: %c\n", c);
-	c = c >> 1;
-	printf("Sonra: %c\n", c);
-	c = c + 1;
-	c = c << 1; */
-	kill(pid, SIGUSR1);
+	while (argv[2][i])
+	{
+		send_char(pid, argv[2][i]);
+		i++;
+	}
+	send_char(pid, '\n');
 	return (0);
 }

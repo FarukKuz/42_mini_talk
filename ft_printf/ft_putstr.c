@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_talk.h                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 14:39:37 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/09 16:27:29 by fakuz            ###   ########.fr       */
+/*   Created: 2025/07/22 16:58:50 by fakuz             #+#    #+#             */
+/*   Updated: 2025/07/24 18:40:41 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINI_TALK_H
-# define MINI_TALK_H
+#include "ft_printf.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include "ft_printf/ft_printf.h"
+int	ft_putstr(char *s)
+{
+	int	i;
 
-int	ft_atoi(const char *nptr);
-
-#endif
+	i = 0;
+	if (!s)
+		return (ft_putstr("(null)"));
+	while (s[i])
+	{
+		write(1, &s[i], 1);
+		i++;
+	}
+	return (i);
+}

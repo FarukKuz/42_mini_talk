@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_talk.h                                        :+:      :+:    :+:   */
+/*   ft_putchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 14:39:37 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/09 16:27:29 by fakuz            ###   ########.fr       */
+/*   Created: 2025/07/22 16:59:15 by fakuz             #+#    #+#             */
+/*   Updated: 2025/07/24 17:29:29 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINI_TALK_H
-# define MINI_TALK_H
+#include "ft_printf.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include "ft_printf/ft_printf.h"
-
-int	ft_atoi(const char *nptr);
-
-#endif
+int	ft_putchr(char c)
+{
+	write(1, &c, 1);
+	return (1);
+}

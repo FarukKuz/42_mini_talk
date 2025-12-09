@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_talk.h                                        :+:      :+:    :+:   */
+/*   ft_print_mem_adress.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 14:39:37 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/09 16:27:29 by fakuz            ###   ########.fr       */
+/*   Created: 2025/07/24 12:40:18 by fakuz             #+#    #+#             */
+/*   Updated: 2025/09/04 15:46:54 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINI_TALK_H
-# define MINI_TALK_H
+#include "ft_printf.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include "ft_printf/ft_printf.h"
+int	ft_print_mem_adress(void *adr)
+{
+	int	size;
 
-int	ft_atoi(const char *nptr);
-
-#endif
+	size = 0;
+	if (!(unsigned long) adr)
+	{
+		size += ft_putstr("(nil)");
+		return (size);
+	}
+	size += ft_putstr("0x");
+	size += ft_print_hex((unsigned long) adr, 'p');
+	return (size);
+}
