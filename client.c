@@ -6,7 +6,7 @@
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 14:35:35 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/11 19:31:29 by fakuz            ###   ########.fr       */
+/*   Updated: 2025/12/11 19:51:29 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int	main(int argc, char **argv)
 	int	i;
 
 	if (argc != 3)
+	{
+		ft_printf("Usage: %s <PID> <message>\n", argv[0]);
 		return (1);
+	}
 	pid = ft_atoi(argv[1]);
 	if (pid <= 0)
 	{
