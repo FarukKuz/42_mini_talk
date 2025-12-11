@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/06 17:56:20 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/11 17:10:27 by fakuz            ###   ########.fr       */
+/*   Created: 2025/12/11 17:30:00 by fakuz             #+#    #+#             */
+/*   Updated: 2025/12/11 18:09:50 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_talk.h"
 
-static void	server_handler(int sig_type)
+volatile sig_atomic_t gSignalStatus = 0;
+
+static void	server_handler(int sig_type, siginfo_t *info, void *context)
 {
 	static char		c;
 	static int		bit;
 
+	(void)context;
 	if (sig_type == SIGUSR1)
 	{
 		c = c << 1;
@@ -34,6 +37,8 @@ static void	server_handler(int sig_type)
 		bit = 0;
 		c = 0;
 	}
+	if (info->si_pid > 0)
+		kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -41,8 +46,8 @@ int	main(void)
 	struct sigaction	sa;
 
 	ft_printf("Server PID: %d\n", getpid());
-	sa.sa_handler = server_handler;
-	sa.sa_flags = 0;
+	sa.sa_sigaction = server_handler;
+	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
