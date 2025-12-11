@@ -6,38 +6,44 @@
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:30:00 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/11 18:09:56 by fakuz            ###   ########.fr       */
+/*   Updated: 2025/12/11 19:15:55 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_talk.h"
 
+static volatile int	g_ack;
+
 static void	ack_handler(int sig_type)
 {
 	(void)sig_type;
-}
-
-static void	timeout_handler(int sig_type)
-{
-	(void)sig_type;
-	ft_printf("\nError: Server not responding (timeout)\n");
-	exit(1);
+	g_ack = 1;
 }
 
 static void	send_char(int pid, char c)
 {
 	int	bit;
+	int	retry;
 
 	bit = 7;
 	while (bit >= 0)
 	{
+		g_ack = 0;
 		if ((c >> bit) & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		alarm(2);
-		pause();
-		alarm(0);
+		retry = 0;
+		while (!g_ack && retry < 100)
+		{
+			usleep(100);
+			retry++;
+		}
+		if (!g_ack)
+		{
+			ft_printf("Error: Server not responding\n");
+			exit(1);
+		}
 		bit--;
 	}
 }
@@ -60,9 +66,6 @@ int	main(int argc, char **argv)
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
-		return (1);
-	sa.sa_handler = timeout_handler;
-	if (sigaction(SIGALRM, &sa, NULL) == -1)
 		return (1);
 	i = 0;
 	while (argv[2][i])

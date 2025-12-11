@@ -6,13 +6,11 @@
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:30:00 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/11 18:09:50 by fakuz            ###   ########.fr       */
+/*   Updated: 2025/12/11 19:01:41 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_talk.h"
-
-volatile sig_atomic_t gSignalStatus = 0;
 
 static void	server_handler(int sig_type, siginfo_t *info, void *context)
 {
