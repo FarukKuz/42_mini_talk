@@ -6,7 +6,7 @@
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 14:35:35 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/11 17:19:47 by fakuz            ###   ########.fr       */
+/*   Updated: 2025/12/11 19:31:29 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	send_char(int pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
+		usleep(500);
 		bit--;
 	}
 }
@@ -44,7 +45,6 @@ int	main(int argc, char **argv)
 	while (argv[2][i])
 	{
 		send_char(pid, argv[2][i]);
-		usleep(100);
 		i++;
 	}
 	send_char(pid, '\n');
