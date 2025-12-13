@@ -6,7 +6,7 @@
 /*   By: fakuz <fakuz@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:30:00 by fakuz             #+#    #+#             */
-/*   Updated: 2025/12/11 20:09:22 by fakuz            ###   ########.fr       */
+/*   Updated: 2025/12/13 22:45:46 by fakuz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int	main(int argc, char **argv)
 	int					i;
 	struct sigaction	sa;
 
-	if (argc != 3)
+	if (argc != 3 || ft_strlen(argv[1]) > 7)
 		return (1);
 	pid = ft_atoi(argv[1]);
-	if (pid <= 0)
+	if (pid <= 0 || pid > 4194304)
 	{
 		ft_printf("Error: Invalid PID\n");
 		return (1);
